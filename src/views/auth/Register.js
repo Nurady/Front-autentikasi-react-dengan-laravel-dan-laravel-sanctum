@@ -7,6 +7,9 @@ function Register(props) {
     const [password, setPassword] = useState('')
     const [password_confirmation, setPasswordConfirmation] = useState('')
 
+    const [errors, setErrors] = useState([])
+    const [message, setMessage] = useState('')
+
     const record = {
         name, email, password, password_confirmation
     }
@@ -21,7 +24,8 @@ function Register(props) {
             setPassword('')  
             setPasswordConfirmation('')  
         } catch (error) {
-            console.log(error.response)
+            setErrors(error.response.data.errors)
+            setMessage(error.response.data.message)
         }
     }
 
@@ -29,6 +33,7 @@ function Register(props) {
         <div className="container">
             <div className="row justify-content-center align-items-center">
                 <div className="col-md-5">
+                    { message ? <div className="alert alert-danger" role="alert">{message}</div> : '' }
                     <div className="card">
                         <div className="card-header">Register</div>
                         <div className="card-body">
@@ -39,10 +44,13 @@ function Register(props) {
                                         type="text" 
                                         name="name" 
                                         id="name" 
-                                        className="form-control"
+                                        className={`form-control ${errors.name ? 'is-invalid' : ''}`}
                                         onChange={(e) => setName(e.target.value)} 
                                         value={name}
                                     />
+                                    {
+                                        errors.name ? <div className="invalid-feedback">{errors.name[0]}</div> : ''
+                                    }
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="email" className="form-label">Email</label>
@@ -50,10 +58,13 @@ function Register(props) {
                                         type="email" 
                                         name="email" 
                                         id="email" 
-                                        className="form-control" 
+                                        className={`form-control ${errors.email ? 'is-invalid' : ''}`} 
                                         onChange={(e) => setEmail(e.target.value)} 
                                         value={email}
                                     />
+                                    {
+                                        errors.email ? <div className="invalid-feedback">{errors.email[0]}</div> : ''
+                                    }
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="password" className="form-label">Password</label>
@@ -61,10 +72,13 @@ function Register(props) {
                                         type="password" 
                                         name="password" 
                                         id="password" 
-                                        className="form-control"
+                                        className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                                         onChange={(e) => setPassword(e.target.value)} 
                                         value={password} 
                                     />
+                                    {
+                                        errors.password ? <div className="invalid-feedback">{errors.password[0]}</div> : ''
+                                    }
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="password_confirmation" className="form-label">Password Confirmation</label>
