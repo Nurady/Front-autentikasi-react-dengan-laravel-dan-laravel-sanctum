@@ -17,7 +17,7 @@ function Register(props) {
     const store = async(e) => {
         e.preventDefault()
         try {
-            let response = await axios.post('http://localhost:8000/api/register', record)
+            let response = await axios.post('register', record)
             console.log(response.data)  
             setName('')  
             setEmail('')    
