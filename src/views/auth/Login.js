@@ -1,9 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { authenticated } from '../../store';
 
 function Login(props) {
     const navigate = useNavigate()
+    const [auth, setAuth] = useRecoilState(authenticated)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState([])
@@ -17,6 +20,10 @@ function Login(props) {
         try {
             let response = await axios.post('login', credentials)
             localStorage.setItem('tokenUser', response.data.token)
+            setAuth({
+                check: true, 
+                // user: response.data.data
+            })
             navigate('/')            
         } catch (e) {
             setErrors(e.response.data.errors)
