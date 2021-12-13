@@ -22,7 +22,7 @@ function Login(props) {
             localStorage.setItem('tokenUser', response.data.token)
             setAuth({
                 check: true, 
-                // user: response.data.data
+                user: response.data.data
             })
             navigate('/')            
         } catch (e) {
