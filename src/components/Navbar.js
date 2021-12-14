@@ -1,26 +1,30 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { authenticated } from '../store';
-// import toaster from 'toasted-notes';
-// import 'toasted-notes/src/styles.css';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 
 function Navbar() {
-    // const auth = useRecoilValue(authenticated)
     const [auth, setAuth] = useRecoilState(authenticated)
     const logout = async(e) => {
-        e.preventDefault()
         try {
-            await axios.post('logout')     
+            let response = await axios.post('logout')     
             setAuth({ check: false })     
             localStorage.removeItem('tokenUser') 
-            // toaster.notify(response.data.message)                
+            toast.success(response.data.message, {position: toast.POSITION.TOP_LEFT})                
         } catch (e) {
-            // toaster.notify(e.message)
-            console.log(e)
+            toast.notify(e.message)
         }
     }
+
+    //    useEffect(() => {
+    //         // toaster.notify('ok') 
+    //         toast.success('Hello', {position: toast.POSITION.TOP_LEFT}) 
+    //         console.log('yes')
+    //    })
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
