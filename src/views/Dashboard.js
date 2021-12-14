@@ -7,7 +7,7 @@ function Dashboard(props) {
 
     return (
         <div className="container">
-            Welcome {auth.user.name}
+            Welcome {auth?.user?.name}
         </div>
     );
 }
