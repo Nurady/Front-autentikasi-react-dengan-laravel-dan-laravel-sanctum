@@ -1,10 +1,26 @@
+import axios from 'axios';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { authenticated } from '../store';
+// import toaster from 'toasted-notes';
+// import 'toasted-notes/src/styles.css';
 
-function Navbar(props) {
-    const auth = useRecoilValue(authenticated)
+function Navbar() {
+    // const auth = useRecoilValue(authenticated)
+    const [auth, setAuth] = useRecoilState(authenticated)
+    const logout = async(e) => {
+        e.preventDefault()
+        try {
+            await axios.post('logout')     
+            setAuth({ check: false })     
+            localStorage.removeItem('tokenUser') 
+            // toaster.notify(response.data.message)                
+        } catch (e) {
+            // toaster.notify(e.message)
+            console.log(e)
+        }
+    }
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
@@ -33,7 +49,12 @@ function Navbar(props) {
                                     <NavLink className="nav-link" aria-current="page" to="/">{auth.user.name}</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink className="nav-link" to="/">Logout</NavLink>
+                                    <button 
+                                        className="nav-link btn"
+                                        onClick={logout}
+                                    >
+                                        Logout
+                                    </button>
                                 </li>
                             </ul> 
                             :

@@ -10,11 +10,7 @@ function App(props) {
 
   const getUser = async() => {
       try {
-          let response = await axios.get('me', {
-              headers: {
-                  'Authorization': `Bearer ${localStorage.getItem('tokenUser')}`
-              }
-          })
+          let response = await axios.get('me')
     
           setAuth({
               check: true,

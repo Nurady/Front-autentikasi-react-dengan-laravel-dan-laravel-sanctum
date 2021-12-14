@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function Register(props) {
+function Register() {
+    const navigate = useNavigate()
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -17,12 +19,12 @@ function Register(props) {
     const store = async(e) => {
         e.preventDefault()
         try {
-            let response = await axios.post('register', record)
-            console.log(response.data)  
+            await axios.post('register', record)
             setName('')  
             setEmail('')    
             setPassword('')  
             setPasswordConfirmation('')  
+            navigate('/login')
         } catch (error) {
             setErrors(error.response.data.errors)
             setMessage(error.response.data.message)

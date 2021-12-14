@@ -10,7 +10,12 @@ import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import { RecoilRoot } from 'recoil';
 
-axios.defaults.baseURL = "http://localhost:8000/api/"
+axios.defaults.baseURL = "http://localhost:8000/api/";
+axios.interceptors.request.use((config) => {
+    let token = `Bearer ${localStorage.getItem('tokenUser')}`
+    config.headers.Authorization = token
+    return config
+})
 
 ReactDOM.render(
   <StrictMode>
